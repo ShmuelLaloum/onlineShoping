@@ -60,7 +60,6 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = observer(
       });
     }
 
-    // Logout item
     menuItems.push({
       key: "logout",
       icon: <LogoutOutlined />,
@@ -75,7 +74,6 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = observer(
 
     return (
       <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-        {/* User Info Section for Sidebar */}
         <div
           style={{
             padding: "20px",
