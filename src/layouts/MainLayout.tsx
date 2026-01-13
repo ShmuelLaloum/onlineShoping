@@ -6,7 +6,7 @@ import { observer } from "mobx-react-lite";
 import { SidebarMenu } from "../components/SidebarMenu";
 import { authStore } from "../stores/authStore";
 
-const { Header, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -35,71 +35,65 @@ export const MainLayout: React.FC<MainLayoutProps> = observer(
 
     return (
       <Layout style={{ minHeight: "100vh" }}>
-        {showSidebar && !isMobile && (
-          <Sider breakpoint="md" collapsedWidth="0" theme="dark" width={250}>
+        {showSidebar && (
+          <Header
+            style={{
+              padding: "0 20px",
+              background: "#001529",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
             <div
-              className="demo-logo-vertical"
               style={{
-                height: "32px",
-                margin: "16px",
                 color: "white",
                 fontWeight: "bold",
                 fontSize: "18px",
-                textAlign: "center",
+                marginRight: "20px",
+                whiteSpace: "nowrap",
               }}
             >
               Mini Shop
             </div>
-            <SidebarMenu />
-          </Sider>
-        )}
 
-        <Layout>
-          {showSidebar && isMobile && (
-            <Header
-              style={{
-                padding: "0 20px",
-                background: "#ffffff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <div style={{ fontWeight: "bold", fontSize: "18px" }}>
-                Mini Shop
+            {!isMobile ? (
+              <div style={{ flex: 1 }}>
+                <SidebarMenu mode="horizontal" theme="dark" />
               </div>
+            ) : (
               <Button
                 type="text"
-                icon={<MenuOutlined />}
+                icon={<MenuOutlined style={{ color: "white" }} />}
                 onClick={() => setVisible(true)}
                 style={{ fontSize: "16px", width: 64, height: 64 }}
               />
-            </Header>
-          )}
+            )}
+          </Header>
+        )}
 
-          <Content
-            style={
-              showSidebar
-                ? { margin: "24px 16px 0", overflow: "initial" }
-                : { margin: 0, padding: 0 }
-            }
+        <Content
+          style={{
+            margin: "24px 16px 0",
+            overflow: "initial",
+            padding: 0,
+          }}
+        >
+          {children}
+        </Content>
+
+        {showSidebar && (
+          <Drawer
+            title="Mini Shop"
+            placement="left"
+            onClose={() => setVisible(false)}
+            open={visible}
+            bodyStyle={{ padding: 0, background: "#001529" }}
+            headerStyle={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}
           >
-            {children}
-          </Content>
-
-          {showSidebar && (
-            <Drawer
-              title="Mini Shop"
-              placement="left"
-              onClose={() => setVisible(false)}
-              open={visible}
-              bodyStyle={{ padding: 0, background: "#001529" }}
-              headerStyle={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}
-            >
-              <SidebarMenu onItemClick={() => setVisible(false)} />
-            </Drawer>
-          )}
-        </Layout>
+            <SidebarMenu onItemClick={() => setVisible(false)} />
+          </Drawer>
+        )}
       </Layout>
     );
   }
