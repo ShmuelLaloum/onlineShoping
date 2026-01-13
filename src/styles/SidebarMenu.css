@@ -1,0 +1,110 @@
+/* SidebarMenu.css */
+
+.sidebar-menu-container {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar-menu-container.vertical {
+  flex-direction: column;
+  height: 100%;
+  align-items: stretch;
+}
+
+.sidebar-menu-container.horizontal {
+  flex-direction: row;
+  height: auto;
+  align-items: center;
+}
+
+.profile-section-vertical {
+  padding: 20px;
+  text-align: center;
+}
+
+.profile-section-vertical.dark {
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-section-vertical.light {
+  color: black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.profile-icon-container {
+  margin-bottom: 10px;
+}
+
+.profile-icon {
+  font-size: 24px;
+  padding: 10px;
+  border-radius: 50%;
+}
+
+.profile-icon.dark {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.profile-icon.light {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.username-text {
+  font-weight: bold;
+}
+
+.user-role-text {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.menu-instance {
+  flex: 1;
+  border-right: 0;
+  background: transparent;
+  border-bottom: 0;
+}
+
+.profile-section-horizontal {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-left: 20px;
+}
+
+.profile-section-horizontal.dark {
+  color: white;
+}
+
+.profile-section-horizontal.light {
+  color: black;
+}
+
+.user-info-horizontal {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-icon-horizontal {
+  font-size: 18px;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.profile-icon-horizontal.dark {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.profile-icon-horizontal.light {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.logout-button {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #ff4d4f;
+}

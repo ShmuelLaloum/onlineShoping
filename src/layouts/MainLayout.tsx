@@ -7,6 +7,7 @@ import { SidebarMenu } from "../components/SidebarMenu";
 import { authStore } from "../stores/authStore";
 
 const { Header, Content } = Layout;
+import "../styles/MainLayout.css";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -34,51 +35,27 @@ export const MainLayout: React.FC<MainLayoutProps> = observer(
     }, []);
 
     return (
-      <Layout style={{ minHeight: "100vh" }}>
+      <Layout className="main-layout">
         {showSidebar && (
-          <Header
-            style={{
-              padding: "0 20px",
-              background: "#001529",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div
-              style={{
-                color: "white",
-                fontWeight: "bold",
-                fontSize: "18px",
-                marginRight: "20px",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Mini Shop
-            </div>
+          <Header className="main-header">
+            <div className="app-logo">Mini Shop</div>
 
             {!isMobile ? (
-              <div style={{ flex: 1 }}>
+              <div className="desktop-menu-wrapper">
                 <SidebarMenu mode="horizontal" theme="dark" />
               </div>
             ) : (
               <Button
                 type="text"
-                icon={<MenuOutlined style={{ color: "white" }} />}
+                icon={<MenuOutlined className="mobile-menu-icon" />}
                 onClick={() => setVisible(true)}
-                style={{ fontSize: "16px", width: 64, height: 64 }}
+                className="mobile-menu-button"
               />
             )}
           </Header>
         )}
 
-        <Content
-          style={{
-            margin: "24px 16px 0",
-            overflow: "initial",
-            padding: 0,
-          }}
-        >
+        <Content className={showSidebar ? "main-content" : "main-content-full"}>
           {children}
         </Content>
 
@@ -88,8 +65,9 @@ export const MainLayout: React.FC<MainLayoutProps> = observer(
             placement="left"
             onClose={() => setVisible(false)}
             open={visible}
-            bodyStyle={{ padding: 0, background: "#001529" }}
-            headerStyle={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}
+            rootClassName="custom-sidebar-drawer"
+            // For older AntD versions where rootClassName might not work as expected or for overrides:
+            className="custom-sidebar-drawer"
           >
             <SidebarMenu onItemClick={() => setVisible(false)} />
           </Drawer>

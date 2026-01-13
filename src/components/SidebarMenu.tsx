@@ -11,6 +11,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { authStore } from "../stores/authStore";
 import { cartStore } from "../stores/cartStore";
+import "../styles/SidebarMenu.css";
 
 interface SidebarMenuProps {
   onItemClick?: () => void;
@@ -80,43 +81,19 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = observer(
 
     return (
       <div
-        style={{
-          display: "flex",
-          flexDirection: mode === "horizontal" ? "row" : "column",
-          height: mode === "horizontal" ? "100%" : "100%",
-          width: "100%",
-          alignItems: mode === "horizontal" ? "center" : "stretch",
-        }}
+        className={`sidebar-menu-container ${
+          mode === "horizontal" ? "horizontal" : "vertical"
+        }`}
       >
         {mode !== "horizontal" && (
-          <div
-            style={{
-              padding: "20px",
-              color: theme === "dark" ? "white" : "black",
-              textAlign: "center",
-              borderBottom:
-                theme === "dark"
-                  ? "1px solid rgba(255,255,255,0.1)"
-                  : "1px solid rgba(0,0,0,0.1)",
-            }}
-          >
-            <div style={{ marginBottom: "10px" }}>
-              <UserOutlined
-                style={{
-                  fontSize: "24px",
-                  background:
-                    theme === "dark"
-                      ? "rgba(255,255,255,0.1)"
-                      : "rgba(0,0,0,0.1)",
-                  padding: "10px",
-                  borderRadius: "50%",
-                }}
-              />
+          <div className={`profile-section-vertical ${theme}`}>
+            <div className="profile-icon-container">
+              <UserOutlined className={`profile-icon ${theme}`} />
             </div>
-            <div style={{ fontWeight: "bold" }}>
+            <div className="username-text">
               {authStore.currentUser?.username}
             </div>
-            <div style={{ fontSize: "12px", opacity: 0.7 }}>
+            <div className="user-role-text">
               {authStore.isAdmin ? "Administrator" : "User"}
             </div>
           </div>
@@ -127,50 +104,18 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = observer(
           mode={mode}
           selectedKeys={[location.pathname]}
           items={menuItems}
-          style={{
-            flex: 1,
-            borderRight: 0,
-            background: "transparent",
-            borderBottom: 0,
-          }}
+          className="menu-instance"
         />
 
         {mode === "horizontal" && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "20px",
-              paddingLeft: "20px",
-              color: theme === "dark" ? "white" : "black",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <UserOutlined
-                style={{
-                  fontSize: "18px",
-                  background:
-                    theme === "dark"
-                      ? "rgba(255,255,255,0.1)"
-                      : "rgba(0,0,0,0.1)",
-                  padding: "8px",
-                  borderRadius: "50%",
-                }}
-              />
-              <span style={{ fontWeight: "bold" }}>
+          <div className={`profile-section-horizontal ${theme}`}>
+            <div className="user-info-horizontal">
+              <UserOutlined className={`profile-icon-horizontal ${theme}`} />
+              <span className="username-text">
                 {authStore.currentUser?.username}
               </span>
             </div>
-            <div
-              style={{
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-                color: "#ff4d4f",
-              }}
-              onClick={logoutItem.onClick}
-            >
+            <div className="logout-button" onClick={logoutItem.onClick}>
               <LogoutOutlined />
               <span>Logout</span>
             </div>
