@@ -4,10 +4,6 @@ import {
   Table,
   Button,
   Typography,
-  Modal,
-  Form,
-  Input,
-  Select,
   Tag,
   Popconfirm,
   message,
@@ -18,15 +14,15 @@ import { observer } from "mobx-react-lite";
 import { authStore } from "../stores/authStore";
 import type { User } from "../types";
 import { useNavigate } from "react-router-dom";
+import { UserEditModal } from "../components/UserEditModal";
+import "../styles/AdminDashboard.css";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
-const { Option } = Select;
 
 const AdminDashboard: React.FC = observer(() => {
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form] = Form.useForm();
 
   const navigate = useNavigate();
 
@@ -37,7 +33,6 @@ const AdminDashboard: React.FC = observer(() => {
 
   const handleEdit = (user: User) => {
     setEditingUser(user);
-    form.setFieldsValue(user);
     setIsModalOpen(true);
   };
 
@@ -46,7 +41,7 @@ const AdminDashboard: React.FC = observer(() => {
     message.success("User deleted successfully");
   };
 
-  const handleUpdate = (values: any) => {
+  const handleUpdate = (values: Partial<User>) => {
     if (editingUser) {
       authStore.updateUser(editingUser.username, values);
       message.success("User updated successfully");
@@ -70,7 +65,7 @@ const AdminDashboard: React.FC = observer(() => {
       title: "Password",
       dataIndex: "password",
       key: "password",
-      render: (text: string) => <Text type="secondary">{text}</Text>, 
+      render: (text: string) => <Text type="secondary">{text}</Text>,
     },
     {
       title: "Role",
@@ -86,12 +81,13 @@ const AdminDashboard: React.FC = observer(() => {
       title: "Cart Items",
       dataIndex: "cart",
       key: "cartItems",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       render: (cart: any[]) => cart?.length || 0,
     },
     {
       title: "Action",
       key: "action",
-      render: (_: any, record: User) => (
+      render: (_: unknown, record: User) => (
         <Space>
           <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} />
           <Popconfirm
@@ -118,31 +114,12 @@ const AdminDashboard: React.FC = observer(() => {
 
       <Table dataSource={authStore.users} columns={columns} rowKey="username" />
 
-      <Modal
-        title={`Edit User: ${editingUser?.username}`}
-        open={isModalOpen}
+      <UserEditModal
+        visible={isModalOpen}
+        user={editingUser}
         onCancel={() => setIsModalOpen(false)}
-        onOk={() => form.submit()}
-      >
-        <Form form={form} layout="vertical" onFinish={handleUpdate}>
-          <Form.Item name="username" label="Username">
-            <Input disabled />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="Password"
-            rules={[{ required: true }]}
-          >
-            <Input.Password />
-          </Form.Item>
-          <Form.Item name="role" label="Role" rules={[{ required: true }]}>
-            <Select>
-              <Option value="user">User</Option>
-              <Option value="admin">Admin</Option>
-            </Select>
-          </Form.Item>
-        </Form>
-      </Modal>
+        onUpdate={handleUpdate}
+      />
     </Content>
   );
 });

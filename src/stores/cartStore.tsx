@@ -7,9 +7,9 @@ class CartStore {
 
   constructor() {
     makeAutoObservable(this);
-    
+
     reaction(
-      () => this.items.slice(), 
+      () => this.items.slice(),
       (items) => {
         authStore.syncCart(items);
       }
@@ -37,12 +37,19 @@ class CartStore {
     this.items = [];
   }
 
+  get itemCount() {
+    return this.items.length;
+  }
+
   get totalItems() {
     return this.items.reduce((sum, item) => sum + item.quantity, 0);
   }
 
   get totalPrice() {
-    return this.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    return this.items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
   }
 }
 

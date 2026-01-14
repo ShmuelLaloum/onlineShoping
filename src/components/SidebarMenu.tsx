@@ -51,7 +51,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = observer(
       menuItems.push({
         key: "/cart",
         icon: (
-          <Badge count={cartStore.totalItems} size="small" offset={[5, 0]}>
+          <Badge count={cartStore.itemCount} size="small" offset={[5, 0]}>
             <ShoppingCartOutlined style={{ fontSize: "18px" }} />
           </Badge>
         ),
