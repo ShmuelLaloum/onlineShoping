@@ -7,9 +7,7 @@ import { observer } from "mobx-react-lite";
 
 const { Text } = Typography;
 
-interface CartTableProps {
-  onPayment: () => void;
-}
+import type { CartTableProps } from "../../types/componentProps";
 
 export const CartTable: React.FC<CartTableProps> = observer(({ onPayment }) => {
   const columns = [

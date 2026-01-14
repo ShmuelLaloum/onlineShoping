@@ -1,15 +1,8 @@
 import React, { useEffect } from "react";
 import { Modal, Form, Input, Select } from "antd";
-import type { User } from "../types";
+import type { UserEditModalProps } from "../types/componentProps";
 
 const { Option } = Select;
-
-interface UserEditModalProps {
-  visible: boolean;
-  user: User | null;
-  onCancel: () => void;
-  onUpdate: (values: any) => void;
-}
 
 export const UserEditModal: React.FC<UserEditModalProps> = ({
   visible,

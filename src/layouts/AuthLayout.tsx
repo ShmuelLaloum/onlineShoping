@@ -3,11 +3,7 @@ import { Card, Typography } from "antd";
 
 const { Title, Text } = Typography;
 
-interface AuthLayoutProps {
-  title: string;
-  subtitle: string;
-  children: React.ReactNode;
-}
+import type { AuthLayoutProps } from "../types/componentProps";
 
 export const AuthLayout: React.FC<AuthLayoutProps> = ({
   title,

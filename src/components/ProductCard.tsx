@@ -1,15 +1,11 @@
 import React from "react";
 import { Card, Button, Typography, message } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
-import type { Product } from "../types";
 import { cartStore } from "../stores/cartStore";
+import type { ProductCardProps } from "../types/componentProps";
 
 const { Meta } = Card;
 const { Text } = Typography;
-
-interface ProductCardProps {
-  product: Product;
-}
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const handleAddToCart = () => {

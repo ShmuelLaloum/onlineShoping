@@ -6,9 +6,7 @@ import { observer } from "mobx-react-lite";
 
 const { Text } = Typography;
 
-interface CartListProps {
-  onPayment: () => void;
-}
+import type { CartListProps } from "../../types/componentProps";
 
 export const CartList: React.FC<CartListProps> = observer(({ onPayment }) => {
   return (

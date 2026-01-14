@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import type { FetchProductsResponse } from "../types";
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 15;
 
 export const fetchProducts = async ({ pageParam = 1 }: { pageParam?: number }): Promise<FetchProductsResponse> => {
   await new Promise((resolve) => setTimeout(resolve, 800));

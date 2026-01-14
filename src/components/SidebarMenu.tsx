@@ -13,11 +13,7 @@ import { authStore } from "../stores/authStore";
 import { cartStore } from "../stores/cartStore";
 import "../styles/SidebarMenu.css";
 
-interface SidebarMenuProps {
-  onItemClick?: () => void;
-  mode?: "vertical" | "inline" | "horizontal";
-  theme?: "light" | "dark";
-}
+import type { SidebarMenuProps } from "../types/componentProps";
 
 export const SidebarMenu: React.FC<SidebarMenuProps> = observer(
   ({ onItemClick, mode = "inline", theme = "dark" }) => {

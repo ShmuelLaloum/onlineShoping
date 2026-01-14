@@ -9,9 +9,7 @@ import { authStore } from "../stores/authStore";
 const { Header, Content } = Layout;
 import "../styles/MainLayout.css";
 
-interface MainLayoutProps {
-  children: React.ReactNode;
-}
+import type { MainLayoutProps } from "../types/componentProps";
 
 export const MainLayout: React.FC<MainLayoutProps> = observer(
   ({ children }) => {
@@ -66,7 +64,6 @@ export const MainLayout: React.FC<MainLayoutProps> = observer(
             onClose={() => setVisible(false)}
             open={visible}
             rootClassName="custom-sidebar-drawer"
-            // For older AntD versions where rootClassName might not work as expected or for overrides:
             className="custom-sidebar-drawer"
           >
             <SidebarMenu onItemClick={() => setVisible(false)} />
