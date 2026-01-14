@@ -16,7 +16,7 @@ const Login: React.FC = observer(() => {
   const onFinish = (values: { username: string; password?: string }) => {
     setLoading(true);
     setTimeout(() => {
-      const error = authStore.login(values.username, values.password);
+      const error = authStore.login(values.username.trim(), values.password?.trim());
 
       if (error) {
         message.error(error);
