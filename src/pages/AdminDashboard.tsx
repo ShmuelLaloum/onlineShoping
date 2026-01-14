@@ -22,7 +22,7 @@ const { Title, Text } = Typography;
 
 const AdminDashboard: React.FC = observer(() => {
   const [editingUser, setEditingUser] = useState<User | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -81,7 +81,6 @@ const AdminDashboard: React.FC = observer(() => {
       title: "Cart Items",
       dataIndex: "cart",
       key: "cartItems",
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       render: (cart: any[]) => cart?.length || 0,
     },
     {

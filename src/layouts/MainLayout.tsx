@@ -13,8 +13,8 @@ import type { MainLayoutProps } from "../types/componentProps";
 
 export const MainLayout: React.FC<MainLayoutProps> = observer(
   ({ children }) => {
-    const [visible, setVisible] = useState(false);
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [visible, setVisible] = useState<boolean>(false);
+    const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
     const location = useLocation();
 
     const isAuthPage = ["/login", "/register"].includes(location.pathname);

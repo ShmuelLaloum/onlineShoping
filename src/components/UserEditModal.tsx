@@ -24,7 +24,6 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
       open={visible}
       onCancel={onCancel}
       onOk={() => form.submit()}
-      destroyOnClose
     >
       <Form form={form} layout="vertical" onFinish={onUpdate}>
         <Form.Item name="username" label="Username">

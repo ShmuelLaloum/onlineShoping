@@ -33,6 +33,7 @@ export interface CartTableProps {
 
 export interface CartListProps {
   onPayment: () => void;
+  disabled: boolean;
 }
 export type UserRole = "admin" | "user";
 

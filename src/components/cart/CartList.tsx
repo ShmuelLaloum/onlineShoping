@@ -20,8 +20,13 @@ export const CartList: React.FC<CartListProps> = observer(({ onPayment }) => {
             <Text strong className="cart-list-total-text">
               Total: ${cartStore.totalPrice.toFixed(2)}
             </Text>
-            <Button type="primary" size="large" block onClick={onPayment}>
-              Pay Now
+            <Button
+              type="primary"
+              block
+              disabled={false}
+              onClick={onPayment}
+            >
+              Buy Now
             </Button>
           </div>
         }

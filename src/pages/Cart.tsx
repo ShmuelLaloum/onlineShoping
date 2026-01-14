@@ -11,7 +11,7 @@ const { Content } = Layout;
 const { Title } = Typography;
 
 const Cart: React.FC = observer(() => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const screens = Grid.useBreakpoint();
 
@@ -39,7 +39,7 @@ const Cart: React.FC = observer(() => {
           {screens.md ? (
             <CartTable onPayment={handlePayment} />
           ) : (
-            <CartList onPayment={handlePayment} />
+            <CartList onPayment={handlePayment} disabled={isModalOpen} />
           )}
         </>
       )}

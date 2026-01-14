@@ -2,55 +2,63 @@ import { makeAutoObservable, reaction } from "mobx";
 import { authStore } from "./authStore";
 import type { CartItem } from "../types/componentProps";
 
-class CartStore {
-  items: CartItem[] = [];
+export function createCartStore() {
+  const store = {
+    items: [] as CartItem[],
 
-  constructor() {
-    makeAutoObservable(this);
+    setItems(items: CartItem[]) {
+      store.items = items;
+    },
 
-    reaction(
-      () => this.items.slice(),
-      (items) => {
-        authStore.syncCart(items);
+    addItem(product: Omit<CartItem, "quantity">) {
+      const existingItem = store.items.find(
+        (item) => item.id === product.id
+      );
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        store.items.push({ ...product, quantity: 1 });
       }
-    );
-  }
+    },
 
-  setItems(items: CartItem[]) {
-    this.items = items;
-  }
+    removeItem(id: string) {
+      store.items = store.items.filter((item) => item.id !== id);
+    },
 
-  addItem(product: Omit<CartItem, "quantity">) {
-    const existingItem = this.items.find((item) => item.id === product.id);
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      this.items.push({ ...product, quantity: 1 });
+    clearCart() {
+      store.items = [];
+    },
+
+    get itemCount() {
+      return store.items.length;
+    },
+
+    get totalItems() {
+      return store.items.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+      );
+    },
+
+    get totalPrice() {
+      return store.items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+    },
+  };
+
+  makeAutoObservable(store);
+
+  reaction(
+    () => store.items.slice(),
+    (items) => {
+      authStore.syncCart(items);
     }
-  }
+  );
 
-  removeItem(id: string) {
-    this.items = this.items.filter((item) => item.id !== id);
-  }
-
-  clearCart() {
-    this.items = [];
-  }
-
-  get itemCount() {
-    return this.items.length;
-  }
-
-  get totalItems() {
-    return this.items.reduce((sum, item) => sum + item.quantity, 0);
-  }
-
-  get totalPrice() {
-    return this.items.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
-  }
+  return store;
 }
 
-export const cartStore = new CartStore();
+export const cartStore = createCartStore();

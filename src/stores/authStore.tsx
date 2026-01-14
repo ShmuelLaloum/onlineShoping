@@ -2,112 +2,127 @@ import { makeAutoObservable } from "mobx";
 import { cartStore } from "./cartStore";
 import type { User, UserRole, CartItem } from "../types/componentProps";
 
-class AuthStore {
-  currentUser: User | null = null;
-  users: User[] = [];
+export function createAuthStore() {
+  const store = {
+    currentUser: null as User | null,
+    users: [] as User[],
 
-  constructor() {
-    makeAutoObservable(this);
-    this.loadUsersFromStorage();
-  }
+    login(username: string, password?: string): string | null {
+      const existingUser = store.users.find(
+        (u) => u.username === username
+      );
 
-  login(username: string, password?: string): string | null {
-    const existingUser = this.users.find((u) => u.username === username);
+      if (!existingUser) {
+        return "User not found. Please register first.";
+      }
 
-    if (!existingUser) {
-      return "User not found. Please register first.";
-    }
+      if (existingUser.password !== password) {
+        return "Incorrect password!";
+      }
 
-    if (existingUser.password !== password) {
-      return "Incorrect password!";
-    }
+      store.currentUser = existingUser;
+      store.updateCartFromUser();
+      return null;
+    },
 
-    this.currentUser = existingUser;
-    this.updateCartFromUser(); 
-    return null;
-  }
+    register(
+      username: string,
+      password?: string,
+      role: UserRole = "user"
+    ): string | null {
+      if (store.users.some((u) => u.username === username)) {
+        return "Username already exists!";
+      }
 
-  register(
-    username: string,
-    password?: string,
-    role: UserRole = "user"
-  ): string | null {
-    if (this.users.some((u) => u.username === username)) {
-      return "Username already exists!";
-    }
+      const newUser: User = {
+        username,
+        password,
+        role,
+        cart: [],
+      };
 
-    const newUser: User = {
-      username,
-      password,
-      role,
-      cart: [],
-    };
-    this.users.push(newUser);
-    this.saveUsersToStorage();
-    return null;
-  }
+      store.users.push(newUser);
+      store.saveUsersToStorage();
+      return null;
+    },
 
-  logout() {
-    this.syncCurrentCart();
+    logout() {
+      store.syncCurrentCart();
+      store.currentUser = null;
+      cartStore.clearCart();
+    },
 
-    this.currentUser = null;
-    cartStore.clearCart(); 
-  }
+    syncCart(items: CartItem[]) {
+      if (store.currentUser) {
+        store.currentUser.cart = items;
+        store.saveUsersToStorage();
+      }
+    },
 
-  syncCart(items: CartItem[]) {
-    if (this.currentUser) {
-      this.currentUser.cart = items;
-      this.saveUsersToStorage();
-    }
-  }
+    updateCartFromUser() {
+      if (store.currentUser) {
+        cartStore.setItems(store.currentUser.cart);
+      }
+    },
 
-  private updateCartFromUser() {
-    if (this.currentUser) {
-      cartStore.setItems(this.currentUser.cart);
-    }
-  }
+    syncCurrentCart() {
+      if (store.currentUser) {
+        store.currentUser.cart = cartStore.items;
+        store.saveUsersToStorage();
+      }
+    },
 
-  private syncCurrentCart() {
-    if (this.currentUser) {
-      this.currentUser.cart = cartStore.items;
-      this.saveUsersToStorage();
-    }
-  }
+    deleteUser(username: string) {
+      store.users = store.users.filter(
+        (u) => u.username !== username
+      );
 
-  deleteUser(username: string) {
-    this.users = this.users.filter((u) => u.username !== username);
-    this.saveUsersToStorage();
-    if (this.currentUser?.username === username) {
-      this.logout();
-    }
-  }
+      store.saveUsersToStorage();
 
-  updateUser(username: string, updates: Partial<User>) {
-    const user = this.users.find((u) => u.username === username);
-    if (user) {
-      Object.assign(user, updates);
-      this.saveUsersToStorage();
-    }
-  }
+      if (store.currentUser?.username === username) {
+        store.logout();
+      }
+    },
 
-  private saveUsersToStorage() {
-    localStorage.setItem("users_db", JSON.stringify(this.users));
-  }
+    updateUser(username: string, updates: Partial<User>) {
+      const user = store.users.find(
+        (u) => u.username === username
+      );
 
-  private loadUsersFromStorage() {
-    const data = localStorage.getItem("users_db");
-    if (data) {
-      this.users = JSON.parse(data);
-    }
-  }
+      if (user) {
+        Object.assign(user, updates);
+        store.saveUsersToStorage();
+      }
+    },
 
-  get isAuthenticated() {
-    return !!this.currentUser;
-  }
+    saveUsersToStorage() {
+      localStorage.setItem(
+        "users_db",
+        JSON.stringify(store.users)
+      );
+    },
 
-  get isAdmin() {
-    return this.currentUser?.role === "admin";
-  }
+    loadUsersFromStorage() {
+      const data = localStorage.getItem("users_db");
+      if (data) {
+        store.users = JSON.parse(data);
+      }
+    },
+
+    get isAuthenticated() {
+      return !!store.currentUser;
+    },
+
+    get isAdmin() {
+      return store.currentUser?.role === "admin";
+    },
+  };
+
+  makeAutoObservable(store);
+
+  store.loadUsersFromStorage();
+
+  return store;
 }
 
-export const authStore = new AuthStore();
+export const authStore = createAuthStore();
