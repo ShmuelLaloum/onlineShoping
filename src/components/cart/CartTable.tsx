@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, Button, Image, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import type { CartItem } from "../../types";
+import type { CartItem } from "../../types/componentProps";
 import { cartStore } from "../../stores/cartStore";
 import { observer } from "mobx-react-lite";
 

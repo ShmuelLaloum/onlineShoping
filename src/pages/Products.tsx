@@ -3,6 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { Layout, Row, Col, Spin, Alert, Typography } from "antd";
 import { fetchProducts } from "../api/productsApi";
 import { ProductCard } from "../components/ProductCard";
+import type { Product } from "../types/componentProps";
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -61,7 +62,7 @@ const Products: React.FC = () => {
           <Row gutter={[24, 24]}>
             {data?.pages.map((group, i) => (
               <React.Fragment key={i}>
-                {group.items.map((product) => (
+                {group.items.map((product: Product) => (
                   <Col xs={24} sm={12} md={8} lg={6} key={product.id}>
                     <ProductCard product={product} />
                   </Col>

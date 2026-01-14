@@ -12,7 +12,7 @@ import {
 import { DeleteOutlined, EditOutlined, UserOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react-lite";
 import { authStore } from "../stores/authStore";
-import type { User } from "../types";
+import type { User } from "../types/componentProps";
 import { useNavigate } from "react-router-dom";
 import { UserEditModal } from "../components/UserEditModal";
 import "../styles/AdminDashboard.css";

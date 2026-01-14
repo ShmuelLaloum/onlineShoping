@@ -3,7 +3,7 @@ import { Form, Input, Button, Typography, message, Select } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { AuthLayout } from "../layouts/AuthLayout";
 import { authStore } from "../stores/authStore";
-import type { UserRole } from "../types";
+import type { UserRole } from "../types/componentProps";
 import { useNavigate, Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 

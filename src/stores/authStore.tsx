@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { cartStore } from "./cartStore";
-import type { User, UserRole, CartItem } from "../types";
+import type { User, UserRole, CartItem } from "../types/componentProps";
 
 class AuthStore {
   currentUser: User | null = null;

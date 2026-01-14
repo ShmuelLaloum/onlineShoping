@@ -1,6 +1,6 @@
 import { makeAutoObservable, reaction } from "mobx";
 import { authStore } from "./authStore";
-import type { CartItem } from "../types";
+import type { CartItem } from "../types/componentProps";
 
 class CartStore {
   items: CartItem[] = [];

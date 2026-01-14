@@ -1,5 +1,4 @@
 import React from "react";
-import type { User, Product } from "./index";
 
 export interface AuthLayoutProps {
   title: string;
@@ -34,4 +33,33 @@ export interface CartTableProps {
 
 export interface CartListProps {
   onPayment: () => void;
+}
+export type UserRole = "admin" | "user";
+
+export interface CartItem extends Product {
+  quantity: number;
+}
+
+export interface User {
+  username: string;
+  password?: string;
+  role: UserRole;
+  cart: CartItem[];
+}
+
+export interface Product {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    image: string;
+}
+
+export interface FetchProductsResponse {
+    items: Product[];
+    nextPage: number | undefined;
+}
+export interface ProductsPage {
+  items: Product[];
+  nextPage?: number;
 }
