@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import type { FetchProductsResponse } from "../types";
+import type { FetchProductsResponse } from "../types/componentProps";
 
 const ITEMS_PER_PAGE = 15;
 
