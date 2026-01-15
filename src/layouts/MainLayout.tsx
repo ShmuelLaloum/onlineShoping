@@ -1,35 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { Layout, Button, Drawer } from "antd";
-import { MenuOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { Layout, Button, Drawer } from "antd";
+import { MenuOutlined } from "@ant-design/icons";
+
 import { SidebarMenu } from "../components/SidebarMenu";
 import { authStore } from "../stores/authStore";
+import type { MainLayoutProps } from "../types/componentProps";
 
-const { Header, Content } = Layout;
 import "../styles/MainLayout.css";
 
-import type { MainLayoutProps } from "../types/componentProps";
+const { Header, Content } = Layout;
 
 export const MainLayout: React.FC<MainLayoutProps> = observer(
   ({ children }) => {
     const [visible, setVisible] = useState<boolean>(false);
-    const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
+
+    const [isMobile, setIsMobile] = useState<boolean>(false);
+
     const location = useLocation();
 
     const isAuthPage = ["/login", "/register"].includes(location.pathname);
     const showSidebar = authStore.isAuthenticated && !isAuthPage;
 
     useEffect(() => {
-      const handleResize = () => {
+      const checkMobile = () => {
         setIsMobile(window.innerWidth < 768);
+
         if (window.innerWidth >= 768) {
           setVisible(false);
         }
       };
 
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
+      checkMobile();
+      window.addEventListener("resize", checkMobile);
+
+      return () => window.removeEventListener("resize", checkMobile);
     }, []);
 
     return (
