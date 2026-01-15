@@ -14,7 +14,13 @@ export interface UserEditModalProps {
   visible: boolean;
   user: User | null;
   onCancel: () => void;
-  onUpdate: (values: any) => void;
+  onUpdate: (values: UserFormValues) => void;
+}
+
+export interface UserFormValues {
+  name: string;
+  email: string;
+  role: "admin" | "user";
 }
 
 export interface SidebarMenuProps {
@@ -49,16 +55,16 @@ export interface User {
 }
 
 export interface Product {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    image: string;
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
 }
 
 export interface FetchProductsResponse {
-    items: Product[];
-    nextPage: number | undefined;
+  items: Product[];
+  nextPage: number | undefined;
 }
 export interface ProductsPage {
   items: Product[];
