@@ -28,14 +28,9 @@ const AppContent = observer(() => {
         <Route path="/register" element={<Register />} />
 
         <Route element={<ProtectedRoutes />}>
-          {authStore.isAdmin ? (
-            <Route path="/admin" element={<AdminDashboard />} />
-          ) : (
-            <>
-              <Route path="/products" element={<Products />} />
-              <Route path="/cart" element={<Cart />} />
-            </>
-          )}
+          <Route path="/products" element={<Products />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Route>
 
         <Route
