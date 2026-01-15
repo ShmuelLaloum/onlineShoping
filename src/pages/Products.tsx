@@ -17,7 +17,7 @@ const Products: React.FC = () => {
       getNextPageParam: (lastPage) => lastPage.nextPage,
     });
 
-  const observerTarget = useRef(null);
+  const observerTarget = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
